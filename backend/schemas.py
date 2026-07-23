@@ -12,7 +12,8 @@ class ChunkResponse(BaseModel):
     source: Optional[str] = None
     page: Optional[int] = None
     score: Optional[float] = None
-
+    type: Optional[str] = "text"
+    image_path: Optional[str] = None
 
 class AskResponse(BaseModel):
     question: str
