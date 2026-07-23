@@ -79,14 +79,14 @@ def caption_image(image_path: str, ext: str) -> str:
     message = HumanMessage(content=[
         {
             "type": "text",
-            "text": "Describe the content of this image accurately and briefly (2-3 sentences). "
-                    "Mention any visible text, numbers, chart labels, or table headers. "
-                    "This description will be used in a text-based search system.",
+            "text": (
+                "Extract and transcribe ALL readable text, numbers, and table data from this image. "
+                "If it contains a table, reproduce it as rows with clear labels and values. "
+                "If it is a scanned document page, transcribe the full text content. "
+                "Be exhaustive and precise — this will be used as the only source to answer questions."
+            ),
         },
-        {
-            "type": "image_url",
-            "image_url": {"url": f"data:image/{ext};base64,{b64}"},
-        },
+        {"type": "image_url", "image_url": {"url": f"data:image/{ext};base64,{b64}"}},
     ])
     response = vision_llm.invoke([message])
     return response.content
@@ -106,15 +106,18 @@ def ingest_pdf(file_path: str) -> Dict[str, Any]:
         c.metadata["type"] = "text"
 
     images = extract_images_from_pdf(file_path)
+    scanned_pages = extract_scanned_pages(file_path)   
+    all_images = images + scanned_pages
+
     image_docs = []
-    for img in images:
+    for img in all_images:
         try:
             caption = caption_image(img["path"], img["ext"])
         except Exception as e:
-            caption = f"Feild image: {e}"
+            caption = f"Undescribed image (failed: {e})"
 
         image_docs.append(Document(
-            page_content=f"[Image - Page {img['page'] + 1}]: {caption}",
+            page_content=f"[Image/Scanned content - Page {img['page'] + 1}]: {caption}",
             metadata={
                 "source": file_path,
                 "page": img["page"],
@@ -130,9 +133,31 @@ def ingest_pdf(file_path: str) -> Dict[str, Any]:
         "pages": len(documents),
         "chunks": len(chunks),
         "images": len(image_docs),
-        "message": "PDF indexed successfully (text + images)",
+        "message": "PDF indexed successfully (text + images + scanned pages)",
     }
 
+def extract_scanned_pages(file_path: str, text_threshold: int = 30) -> list:
+    """
+    """
+    doc_name = os.path.splitext(os.path.basename(file_path))[0]
+    out_dir = os.path.join(IMAGES_DIR, doc_name)
+    os.makedirs(out_dir, exist_ok=True)
+
+    pdf = fitz.open(file_path)
+    scanned_pages = []
+    for page_index in range(len(pdf)):
+        page = pdf[page_index]
+        text = page.get_text().strip()
+
+        if len(text) < text_threshold:
+            pix = page.get_pixmap(dpi=200)
+            filename = f"page{page_index+1}_fullpage.png"
+            path = os.path.join(out_dir, filename)
+            pix.save(path)
+            scanned_pages.append({"path": path, "page": page_index, "ext": "png"})
+
+    pdf.close()
+    return scanned_pages
 
 def get_retriever():
     global vector_store
