@@ -79,7 +79,7 @@ Runtime settings are defined in `backend/config.py`:
 - `CHUNK_OVERLAP = 50`
 - `TOP_K = 4`
 - `EMBEDDING_MODEL = "text-embedding-3-small"`
-- `LLM_MODEL = "gpt-4.1-mini"`
+- `LLM_MODEL = "gpt-5"`
 - `TEMPERATURE = 0`
 - `UPLOAD_DIR = "data/uploads"`
 - `IMAGES_DIR = "data/uploads/images"` — root folder for extracted images and rasterized scanned pages
