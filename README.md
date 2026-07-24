@@ -1,6 +1,4 @@
 # RAG PDF Teaching Demo
-
-# RAG PDF Teaching Demo
  
 Professional teaching/demo project for explaining how Retrieval-Augmented Generation (RAG) works with a single PDF — now including support for **embedded images, tables, and scanned pages**, not just plain text.
 
