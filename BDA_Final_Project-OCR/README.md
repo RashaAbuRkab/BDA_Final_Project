@@ -219,10 +219,17 @@ Because `caption_image()` is only called when `extraction_method` includes `"vis
 ---
 
 ## Results
-- After uploading the test_with_image.pdf file, it seems that the OCR can't extract all the information from the images some times. See the following image that shows the extracted text from the chart, it didn't handle Q3, Q2, Q1. And when I asked it about Q2 it can't answer it.
-<img width="298" height="221" alt="image" src="https://github.com/user-attachments/assets/abbdbff7-6441-4725-a09d-4e860a67d325" />
-- So, vision LLMs are more concise in extracting text and descrption from images and scanned content.
+
+One of the testings was done by uploading test_with_image.pdf, a document containing a bar chart of quarterly revenue (Q1–Q4).
+
+**OCR (Tesseract) struggled with the chart**. The extracted text captured the title and axis label correctly (Quarterly Revenue (in $1000)), but failed to recognize the quarter labels (Q1, Q2, Q3, Q4) and misread several of the value labels — for example, 100 4 EE 0 instead of the actual axis values:
+<img width="595" height="441" alt="image" src="https://github.com/user-attachments/assets/d9d847df-3e59-4496-b025-874967077384" />
+
+This is a notable limitation of character-recognition OCR on chart-style images: bars, gridlines, and small rotated or angled labels are easily misread as stray characters, since Tesseract has no visual understanding of chart structure — only individual glyph shapes.
+
+**Vision-LLM captioning handled the same chart correctly**. Because vision models reason over the image holistically rather than character-by-character, it correctly identified each quarter and its corresponding value, producing text that could be retrieved and used to answer quarter-specific questions accurately.
+As a direct consequence, when asked "What was the revenue in Q2?", the RAG pipeline using OCR-only extraction could not answer — the Q2 label and its corresponding value were never correctly captured in the indexed text.
  
 ## Core Message
- 
-OCR and vision-LLM captioning solve the same problem — turning pixels into searchable text — through fundamentally different means: one recognizes character shapes directly, the other describes and transcribes using a language model's general understanding. Neither is strictly "better" in all cases, which is exactly why this project lets you run both side-by-side and compare.
+
+OCR and vision-LLM captioning solve the same problem — turning pixels into searchable text — through fundamentally different means: one recognizes character shapes directly, the other reasons over the image using a language model's broader visual and contextual understanding. Neither is strictly "better" in all cases: OCR is faster, free, and reliable for plain text, while vision-LLM captioning is far more capable on charts, tables, and other layout-dependent content — which is exactly why this project lets you run both side-by-side and compare.
