@@ -11,3 +11,5 @@ langchain-community
 faiss-cpu
 pypdf
 pymupdf
+pytesseract
+Pillow
