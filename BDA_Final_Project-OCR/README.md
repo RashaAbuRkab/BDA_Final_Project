@@ -217,6 +217,11 @@ Because `caption_image()` is only called when `extraction_method` includes `"vis
 - **Dependency issues on Windows**
   → Activate your environment, run `pip install -r requirements.txt` again, and confirm `import pytesseract` and `from PIL import Image` both succeed without errors.
 ---
+
+## Results
+- After uploading the test_with_image.pdf file, it seems that the OCR can't extract all the information from the images some times. See the following image that shows the extracted text from the chart, it didn't handle Q3, Q2, Q1. And when I asked it about Q2 it can't answer it.
+<img width="298" height="221" alt="image" src="https://github.com/user-attachments/assets/abbdbff7-6441-4725-a09d-4e860a67d325" />
+- So, vision LLMs are more concise in extracting text and descrption from images and scanned content.
  
 ## Core Message
  
