@@ -223,7 +223,8 @@ Because `caption_image()` is only called when `extraction_method` includes `"vis
 One of the testings was done by uploading test_with_image.pdf, a document containing a bar chart of quarterly revenue (Q1–Q4).
 
 **OCR (Tesseract) struggled with the chart**. The extracted text captured the title and axis label correctly (Quarterly Revenue (in $1000)), but failed to recognize the quarter labels (Q1, Q2, Q3, Q4) and misread several of the value labels — for example, 100 4 EE 0 instead of the actual axis values:
-<img width="595" height="441" alt="image" src="https://github.com/user-attachments/assets/d9d847df-3e59-4496-b025-874967077384" />
+
+<img width="300" height="200" alt="image" src="https://github.com/user-attachments/assets/d9d847df-3e59-4496-b025-874967077384" />
 
 This is a notable limitation of character-recognition OCR on chart-style images: bars, gridlines, and small rotated or angled labels are easily misread as stray characters, since Tesseract has no visual understanding of chart structure — only individual glyph shapes.
 
