@@ -342,6 +342,10 @@ Recommended classroom order:
       
 ---
 
+Tested Pdf File :
+<img width="1898" height="1879" alt="v2" src="https://github.com/user-attachments/assets/149c08ad-052e-4424-9aca-dd68089f0b6b" />
+
+
 ## Core Message
 
 The LLM does **not** read the PDF directly.  
