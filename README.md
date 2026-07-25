@@ -49,3 +49,35 @@ The LLM does **not** read the PDF directly. Instead:
 4. The LLM generates its answer using only that retrieved context.
 
 Comparing the OCR and vision-LLM folders side-by-side demonstrates how the *method* used to extract text from non-text content affects what gets retrieved, and ultimately, the quality of the grounded answer.
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Input File</th>
+    <th>Output Image</th>
+    <th>Extracted Data</th>
+  </tr>
+
+  <tr>
+    <td><b>Vision LLM</b></td>
+    <td rowspan="2" align="center">
+      <img src="/images/Company Performance Report.png" width="180">
+    </td>
+    <td align="center">
+      <img src="/images/llm_results.png" width="180">
+    </td>
+    <td align="center">
+      <img src="/images/llm_extract.png" width="180">
+    </td>
+  </tr>
+
+  <tr>
+    <td><b>OCR</b></td>
+    <td align="center">
+      <img src="/images/ocr_results.jpeg" width="180">
+    </td>
+    <td align="center">
+      <img src="/images/ocr_extract.jpeg" width="180">
+    </td>
+  </tr>
+</table>
