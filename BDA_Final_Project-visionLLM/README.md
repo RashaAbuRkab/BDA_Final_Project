@@ -1,6 +1,6 @@
 # RAG PDF Teaching Demo
  
-Professional teaching/demo project for explaining how Retrieval-Augmented Generation (RAG) works with a single PDF — now including support for **embedded images, tables, and scanned pages**, not just plain text.
+Professional teaching/demo project for explaining how Retrieval-Augmented Generation (RAG) works with a single PDF, now including support for **embedded images, tables, and scanned pages**, not just plain text.
 
 - **Backend:** FastAPI + LangChain + FAISS
 - **Frontend:** Streamlit
@@ -82,9 +82,9 @@ Runtime settings are defined in `backend/config.py`:
 - `LLM_MODEL = "gpt-5"`
 - `TEMPERATURE = 0`
 - `UPLOAD_DIR = "data/uploads"`
-- `IMAGES_DIR = "data/uploads/images"` — root folder for extracted images and rasterized scanned pages
+- `IMAGES_DIR = "data/uploads/images"` # root folder for extracted images and rasterized scanned pages
 - `FAISS_INDEX_PATH = "storage/faiss_index"`
-- `OPENAI_BASE_URL` — base URL for the OpenAI-compatible API endpoint (lets the backend point at a custom/proxy endpoint instead of the default OpenAI API)
+- `OPENAI_BASE_URL` # base URL for the OpenAI-compatible API endpoint (lets the backend point at a custom/proxy endpoint instead of the default OpenAI API)
 
 Environment variable required in `.env`:
 
@@ -116,7 +116,7 @@ Use the following versions for a stable run.
 - `langchain-text-splitters==1.1.2`
 - `faiss-cpu==1.13.2`
 - `pypdf==6.10.2`
-
+- `pymupdf==1.28.0`
 ### Verify installed versions (optional)
 
 ```powershell
@@ -141,7 +141,7 @@ pip install -r requirements.txt
 
 ```powershell
 cd "D:\Workshop Material\Jupyter Notebooks\RAGApp\rag-pdf-teaching-demo"
-uvicorn backend.main:app --reload
+ .\scripts\startBackEnd.cmd 
 ```
 
 Expected backend URL:
@@ -156,7 +156,7 @@ Health check:
 
 ```powershell
 cd "D:\Workshop Material\Jupyter Notebooks\RAGApp\rag-pdf-teaching-demo"
-streamlit run frontend/app.py
+.\scripts\startFrontEnd.cmd
 ```
 
 Expected frontend URL:
@@ -173,7 +173,7 @@ Expected frontend URL:
 2. Backend saves file in `data/uploads`.
 3. `PyPDFLoader` reads pages into documents.
 4. `RecursiveCharacterTextSplitter` creates chunks (tagged `type="text"`).
-5. Embedded images are extracted from the PDF (see below) and scanned (text-sparse) pages are rasterized to full-page images.
+5. Embedded images are extracted from the PDF (see below), and scanned (text-sparse) pages are rasterized to full-page images.
 6. Each extracted image/scanned page is captioned by a vision LLM, and the caption becomes a retrievable `Document` (tagged `type="image"`).
 7. Text chunks and image-caption documents are combined and embedded together with `OpenAIEmbeddings`.
 8. `FAISS.from_documents(...)` builds a single vector index over both content types.
@@ -194,7 +194,7 @@ For each question, backend runs two paths:
 
 Each retrieved chunk includes a score, so students can see ranking quality and understand:
 
-**"The retriever ranks chunks by semantic similarity — regardless of whether the original content was text or an image."**
+**"The retriever ranks chunks by semantic similarity, regardless of whether the original content was text or an image."**
 
 ---
 
