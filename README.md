@@ -61,23 +61,23 @@ Comparing the OCR and vision-LLM folders side-by-side demonstrates how the *meth
   <tr>
     <td><b>Vision LLM</b></td>
     <td rowspan="2" align="center">
-      <img src="/images/Company Performance Report.png" width="1200">
+      <img src="/images/Company Performance Report.png" >
     </td>
     <td align="center">
-      <img src="/images/llm_results.png" width="1200">
+      <img src="/images/llm_results.png">
     </td>
     <td align="center">
-      <img src="/images/llm_extract.png" width="1200">
+      <img src="/images/llm_extract.png">
     </td>
   </tr>
 
   <tr>
     <td><b>OCR</b></td>
     <td align="center">
-      <img src="/images/ocr_results.jpeg" width="1200">
+      <img src="/images/ocr_results.jpeg">
     </td>
     <td align="center">
-      <img src="/images/ocr_extract.jpeg" width="1200">
+      <img src="/images/ocr_extract.jpeg">
     </td>
   </tr>
 </table>
